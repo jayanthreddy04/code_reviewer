@@ -3,6 +3,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import config, { getAllowedOrigins } from './config/index.js';
+import { ensureDatabase } from './config/database.js';
 import authRoutes from './routes/auth.routes.js';
 import reviewRoutes from './routes/review.routes.js';
 import { notFoundHandler, errorHandler } from './middleware/errorHandler.js';
@@ -57,6 +58,22 @@ app.get('/api/health', (_req, res) => {
     timestamp: new Date().toISOString(),
   });
 });
+
+const requireDatabase = async (_req, res, next) => {
+  try {
+    await ensureDatabase();
+    next();
+  } catch (err) {
+    console.error('Database connection failed:', err.message);
+    res.status(503).json({
+      success: false,
+      message: 'Database unavailable. Check MONGODB_URI and Atlas network access.',
+    });
+  }
+};
+
+app.use('/api/auth', requireDatabase);
+app.use('/api/review', requireDatabase);
 
 app.use('/api/auth', authRoutes);
 app.use('/api/review', reviewRoutes);
