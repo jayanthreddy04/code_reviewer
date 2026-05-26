@@ -194,6 +194,20 @@ GROQ_API_KEY=gsk_your_key_here
 GROQ_MODEL=llama-3.3-70b-versatile
 ```
 
+## LangSmith Tracing
+
+The backend traces Groq review calls with the LangSmith SDK. Prompt and response content is redacted by default; enable `LANGSMITH_TRACE_CODE=true` only if you are comfortable sending reviewed source code to LangSmith.
+
+1. Create a LangSmith API key at https://smith.langchain.com
+2. Set in `backend/.env`:
+
+```env
+LANGSMITH_TRACING=true
+LANGSMITH_API_KEY=lsv2_your_key_here
+LANGSMITH_PROJECT=automated-code-reviewer
+LANGSMITH_TRACE_CODE=false
+```
+
 ## Deployment
 
 **Full guide:** see [DEPLOYMENT.md](./DEPLOYMENT.md)
@@ -225,6 +239,10 @@ MONGODB_URI=mongodb+srv://user:pass@cluster.mongodb.net/code-reviewer
 | Variable | Required | Description |
 |----------|----------|-------------|
 | `GROQ_API_KEY` | Yes | Groq LLM API key |
+| `LANGSMITH_TRACING` | Optional | Enable LangSmith traces (`true`/`false`) |
+| `LANGSMITH_API_KEY` | If tracing | LangSmith API key |
+| `LANGSMITH_PROJECT` | Optional | LangSmith project name |
+| `LANGSMITH_TRACE_CODE` | Optional | Include full prompt/code in traces (`false` by default) |
 | `MONGODB_URI` | Yes* | MongoDB connection (*required in production) |
 | `JWT_SECRET` | Yes | Secret for JWT signing |
 | `CLIENT_URL` | Yes | Frontend URL for CORS |

@@ -16,6 +16,14 @@ services:
         generateValue: true
       - key: GROQ_API_KEY
         sync: false
+      - key: LANGSMITH_TRACING
+        value: false
+      - key: LANGSMITH_API_KEY
+        sync: false
+      - key: LANGSMITH_PROJECT
+        value: automated-code-reviewer
+      - key: LANGSMITH_TRACE_CODE
+        value: false
       - key: CLIENT_URL
         sync: false
       - key: PINECONE_API_KEY

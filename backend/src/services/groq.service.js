@@ -1,6 +1,7 @@
 import Groq from 'groq-sdk';
 import config from '../config/index.js';
 import { AppError } from '../utils/AppError.js';
+import { createTracedGroqCompletion } from './langsmith.service.js';
 
 let groqClient = null;
 
@@ -53,7 +54,7 @@ ${code.slice(0, 50000)}
 Provide comprehensive analysis including bugs, security, performance, best practices, refactoring, complexity, and line-by-line inline comments.`;
 
   try {
-    const completion = await client.chat.completions.create({
+    const request = {
       model: config.groq.model,
       messages: [
         { role: 'system', content: REVIEW_SYSTEM_PROMPT },
@@ -62,6 +63,15 @@ Provide comprehensive analysis including bugs, security, performance, best pract
       temperature: 0.2,
       max_tokens: 8192,
       response_format: { type: 'json_object' },
+    };
+
+    const completion = await createTracedGroqCompletion({
+      client,
+      request,
+      language,
+      fileName,
+      codeLength: code.length,
+      contextLength: context.length,
     });
 
     const content = completion.choices[0]?.message?.content;

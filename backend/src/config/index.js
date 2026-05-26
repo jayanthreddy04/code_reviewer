@@ -38,6 +38,11 @@ const config = {
     apiKey: process.env.GROQ_API_KEY,
     model: process.env.GROQ_MODEL || 'llama-3.3-70b-versatile',
   },
+  langsmith: {
+    tracing: process.env.LANGSMITH_TRACING === 'true',
+    project: process.env.LANGSMITH_PROJECT || 'automated-code-reviewer',
+    traceCode: process.env.LANGSMITH_TRACE_CODE === 'true',
+  },
   pinecone: {
     apiKey: process.env.PINECONE_API_KEY,
     indexName: process.env.PINECONE_INDEX_NAME || 'code-reviews',
