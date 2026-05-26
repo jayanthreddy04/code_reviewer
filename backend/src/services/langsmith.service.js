@@ -1,7 +1,10 @@
+import { Client } from 'langsmith';
 import { traceable } from 'langsmith/traceable';
 import config from '../config/index.js';
 
 process.env.LANGSMITH_PROJECT ||= config.langsmith.project;
+
+const langsmithClient = new Client({});
 
 const redactMessageContent = (message) => ({
   ...message,
@@ -37,6 +40,7 @@ const buildTraceOutputs = (completion) => {
 export const createTracedGroqCompletion = traceable(
   async ({ client, request }) => client.chat.completions.create(request),
   {
+    client: langsmithClient,
     name: 'Groq Code Review',
     run_type: 'llm',
     tags: ['groq', 'code-review'],
@@ -58,3 +62,15 @@ export const createTracedGroqCompletion = traceable(
     processOutputs: buildTraceOutputs,
   }
 );
+
+export const flushLangSmithTraces = async () => {
+  if (!config.langsmith.tracing) {
+    return;
+  }
+
+  try {
+    await langsmithClient.awaitPendingTraceBatches();
+  } catch (error) {
+    console.warn(`LangSmith trace flush failed: ${error.message}`);
+  }
+};

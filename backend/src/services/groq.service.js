@@ -1,7 +1,7 @@
 import Groq from 'groq-sdk';
 import config from '../config/index.js';
 import { AppError } from '../utils/AppError.js';
-import { createTracedGroqCompletion } from './langsmith.service.js';
+import { createTracedGroqCompletion, flushLangSmithTraces } from './langsmith.service.js';
 
 let groqClient = null;
 
@@ -83,6 +83,8 @@ Provide comprehensive analysis including bugs, security, performance, best pract
   } catch (error) {
     if (error instanceof AppError) throw error;
     throw new AppError(`Groq API error: ${error.message}`, 502);
+  } finally {
+    await flushLangSmithTraces();
   }
 };
 

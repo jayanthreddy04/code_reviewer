@@ -21,7 +21,7 @@ services:
       - key: LANGSMITH_API_KEY
         sync: false
       - key: LANGSMITH_PROJECT
-        value: automated-code-reviewer
+        value: code_reviewer
       - key: LANGSMITH_TRACE_CODE
         value: false
       - key: CLIENT_URL

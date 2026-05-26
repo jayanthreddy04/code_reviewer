@@ -204,7 +204,7 @@ The backend traces Groq review calls with the LangSmith SDK. Prompt and response
 ```env
 LANGSMITH_TRACING=true
 LANGSMITH_API_KEY=lsv2_your_key_here
-LANGSMITH_PROJECT=automated-code-reviewer
+LANGSMITH_PROJECT=code_reviewer
 LANGSMITH_TRACE_CODE=false
 ```
 

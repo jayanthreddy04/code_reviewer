@@ -76,7 +76,7 @@ In **Project → Settings → Environment Variables**, add these for **Productio
 | `GROQ_MODEL` | No | `llama-3.3-70b-versatile` (default) |
 | `LANGSMITH_TRACING` | No | Set `true` to enable LangSmith traces |
 | `LANGSMITH_API_KEY` | If tracing | `lsv2_...` from LangSmith |
-| `LANGSMITH_PROJECT` | No | `automated-code-reviewer` |
+| `LANGSMITH_PROJECT` | No | `code_reviewer` |
 | `LANGSMITH_TRACE_CODE` | No | Keep `false` unless reviewed code may be sent to LangSmith |
 | `CLIENT_URL` | Yes* | Your production URL, e.g. `https://your-app.vercel.app` |
 | `PINECONE_API_KEY` | No | For semantic search |
